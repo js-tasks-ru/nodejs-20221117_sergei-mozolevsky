@@ -9,11 +9,7 @@ const server = new http.Server();
 server.on('request', async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname.slice(1);
-
   const filepath = path.join(__dirname, 'files', pathname);
-
-  // Temp file path just for tests
-  // const filepath = path.join(__dirname, 'test', 'fixtures', pathname);
 
   switch (req.method) {
     case 'GET':
@@ -39,7 +35,6 @@ server.on('request', async (req, res) => {
     })
 
     res.on('close', () => {
-      console.log('network died')
       stream.destroy();
     })
 
