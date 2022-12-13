@@ -17,6 +17,16 @@ module.exports = class Validator {
         return errors;
       }
 
+      if (!rules.min) {
+        errors.push({field, error: `expect min validation rule be provided`});
+        return errors;
+      }
+
+      if (!rules.max) {
+        errors.push({field, error: `expect max validation rule be provided`});
+        return errors;
+      }
+
       switch (type) {
         case 'string':
           if (value.length < rules.min) {
@@ -31,8 +41,11 @@ module.exports = class Validator {
             errors.push({field, error: `too little, expect ${rules.min}, got ${value}`});
           }
           if (value > rules.max) {
-            errors.push({field, error: `too big, expect ${rules.min}, got ${value}`});
+            errors.push({field, error: `too big, expect ${rules.max}, got ${value}`});
           }
+          break;
+        default:
+            errors.push({field, error: `validation for field type ${type} is not supported`});  
           break;
       }
     }
